@@ -1,35 +1,38 @@
 <template>
-    <button class="button" @click="clicado" :disabled="desabilitado">
+    <button class="button" @click="clicked" :disabled="disabled">
       <span class="icon">
-        <i :class="icone"></i>
+        <i :class="icon"></i>
       </span>
-      <span>{{texto}}</span>
+      <span>{{text}}</span>
     </button>
   </template>
   
   <script lang="ts">
-    /* eslint-disable */
+  /* eslint-disable */
   import { defineComponent } from "vue";
   
   export default defineComponent({
-    name: "Botao",
-    emits: ['clicado'],
+    name: 'ButtonStart',
+
+    emits: ['clicked'],
+
     props: {
-      desabilitado: {
+      disabled: {
         type: Boolean
       },
-      icone: {
+      icon: {
         type: String,
         required: true
       },
-      texto: {
+      text: {
         type: String,
         required: true
       },
     },
+
     methods: {
-      clicado () : void {
-        this.$emit('clicado')
+      clicked () : void {
+        this.$emit('clicked')
       }
     }
   });

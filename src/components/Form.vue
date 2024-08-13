@@ -1,11 +1,11 @@
 <template>
-  <div class="box">
+  <div class="box form">
     <div class="columns">
       <div class="column is-8" role="form" aria-label="Formulario">
-        <input class="input" type="text" placeholder="Tarefa" v-model="descricao"/>
+        <input class="input" type="text" placeholder="Tarefa" v-model="desc"/>
       </div>
       <div class="column">
-        <Temporizador @temporizadorFinished="finishedTask"/>
+        <Timer @timerFinished="finishedTask"/>
       </div>
     </div>
   </div>
@@ -14,35 +14,39 @@
 <script lang="ts">
 /* eslint-disable */
 import { defineComponent } from 'vue';
-import Temporizador from './Temporizador.vue';
+import Timer from './Timer.vue';
 
 export default defineComponent({
-  name: 'Formulario',
+  name: 'Forms',
 
-  emits: ['saveTarefa'],
+  emits: ['saveTask'],
 
   components: {
-    Temporizador
+    Timer
   },
 
   data() {
     return {
-      descricao: ''
+      desc: ''
     };
   },
 
   methods: {
     finishedTask(time: number) : void {
-      this.$emit('saveTarefa' ,{
+      this.$emit('saveTask' ,{
         time: time,
-        descricao: this.descricao
+        desc: this.desc
       });
-      this.descricao = '';
+      this.desc = '';
     }
   }
 });
 </script>
 
-<style scoped>
+<style>
+.form {
+  color: var(--text-primary);
+  background: var(--bg--primary);
+}
 
 </style>

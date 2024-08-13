@@ -1,6 +1,8 @@
 <template>
   <section>
-    <strong>{{ timeFormated }}</strong>
+    <strong class="time">
+      {{ timeFormated }}
+    </strong>
   </section>
 </template>
 
@@ -9,7 +11,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent ({
-    name: 'Cronometro',
+    name: 'Stopwatch',
 
     props: {
         time: {
@@ -27,4 +29,8 @@ export default defineComponent ({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.time{
+  color: var(--text-primary);
+}
+</style>
