@@ -4,13 +4,7 @@
       <SideBar @ThemeAltered="themeToggle" />
     </div>
     <div class="column is-three-quarter content">
-      <Forms @saveTask="saveTask" />
-      <div class="lista">
-        <Lists v-for="(task, index) in tasks" :key="index" :task="task"/>
-        <Box v-if="lenghtList" class="text-descrition">
-          Você não está muito produtivo hoje
-        </Box>
-      </div>
+      <router-view></router-view>
     </div>
   </main>
 </template>
@@ -19,37 +13,20 @@
 /* eslint-disable */
 import { defineComponent } from "vue";
 import SideBar from "./components/SideBar.vue";
-import Forms from "./components/Form.vue";
-import Box from "./components/Box.vue";
-import Lists from "./components/Lists.vue";
-import Task from "./interfaces/Task";
 
 export default defineComponent({
   name: "App",
   components: {
     SideBar,
-    Forms,
-    Lists,
-    Box,
   },
 
   data () {
     return {
-      tasks: [] as Task [],
       themeLight: false
     }
   },
 
-  computed: {
-    lenghtList ():  boolean {
-      return this.tasks.length === 0
-    }
-  },
-
   methods: {
-    saveTask (task: Task) {
-      this.tasks.push(task)
-    },
     themeToggle (themeLight: boolean) {
       this.themeLight = themeLight
     }
