@@ -4,6 +4,9 @@
       <div class="column is-7 text-descrition">
         {{task.desc || 'Sem descrição'}}
       </div>
+      <div class="column is-3">
+        {{ task.project?.name || 'Sem projeto' }}
+      </div>
       <div class="column time">
         <StopWatch :time="task.time" />
       </div>

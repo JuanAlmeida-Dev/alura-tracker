@@ -17,7 +17,7 @@
   import Task from "../interfaces/Task";
   
   export default defineComponent({
-    name: "App",
+    name: "Task",
     components: {
       Forms,
       Lists,
