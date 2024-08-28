@@ -20,10 +20,5 @@ npm run build
 npm run lint
 ```
 
-### Estrutura de componentes no Vue.js
-Template
-Script
-Style
-
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

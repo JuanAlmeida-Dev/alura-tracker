@@ -39,6 +39,7 @@
 <script lang="ts">
  /* eslint-disable */
 import { useStore } from '@/store';
+import { GET_PROJECTS } from '@/store/actions';
 import { DELETE_PROJECT } from '@/store/mutations';
 import { computed, defineComponent } from 'vue';
 
@@ -53,6 +54,7 @@ export default defineComponent({
 
     setup () {
         const store = useStore()
+        store.dispatch(GET_PROJECTS);
         return {
             store,
             projects: computed(() => store.state.projects)
