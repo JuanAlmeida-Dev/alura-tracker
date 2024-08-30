@@ -1,9 +1,9 @@
 import Project from "@/interfaces/Project";
 import { InjectionKey } from "vue";
 import { createStore, Store, useStore as vuexUseStore } from "vuex";
-import { ADD_PROJECT, UPDATE_PROJECT, DELETE_PROJECT, NOTIFICATION, DEFINED_PROJECT } from "./mutations";
+import { UPDATE_PROJECT, NOTIFICATION, DEFINED_PROJECT } from "./mutations";
 import {Notification} from "@/interfaces/Notification";
-import { GET_PROJECTS } from "./actions";
+import { ALTER_PROJECT, GET_PROJECTS, ADD_PROJECT, DELETE_PROJECT } from "./actions";
 import http from "@/http";
 
 interface State {
@@ -51,8 +51,22 @@ export const store = createStore<State>({
             http.get('projects')
             .then(response => {
                 commit(DEFINED_PROJECT, response.data);
-            })
-        }
+            });
+        },
+        [ADD_PROJECT] (context, nameProject: string){
+            return http.post('/projects', {
+                name: nameProject
+            });
+        },
+        [ALTER_PROJECT] (context, project: Project){
+            return http.put(`/projects/${project.id}`,project);
+        },
+        [DELETE_PROJECT] (context, id: string){
+            return http.delete(`/projects/${id}`)
+             .then(() => {
+                context.commit(DELETE_PROJECT, id);
+            });   
+        }      
     }
 });
 

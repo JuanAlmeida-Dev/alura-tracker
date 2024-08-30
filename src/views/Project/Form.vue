@@ -18,7 +18,7 @@
  /* eslint-disable */
 import { NotificationType } from '@/interfaces/Notification';
 import { useStore } from '@/store';
-import { UPDATE_PROJECT, ADD_PROJECT } from '@/store/mutations';
+import { ADD_PROJECT, ALTER_PROJECT } from '@/store/actions';
 import { defineComponent } from 'vue';
 import  useNotifier  from '@/hooks/notifier';
 
@@ -47,18 +47,22 @@ export default defineComponent({
     methods: {
         save () {
             if(this.id) {
-                this.store.commit(UPDATE_PROJECT, { 
+                this.store.dispatch(ALTER_PROJECT, { 
                     id: this.id, 
                     name: this.nameProject 
-                })
+                }) .then(() => this.sucess());
             } else {
-                this.store.commit(ADD_PROJECT, this.nameProject)
+                this.store.dispatch(ADD_PROJECT, this.nameProject)
+                .then(() => this.sucess());
             }
+        },
+        sucess () {
             this.nameProject = '';
             this.nofitication(NotificationType.SUCCESS, 'Projeto salvo', 'Projeto salvo com sucesso')
             this.$router.push('/Project')
         }
     },
+
     setup () {
         const store = useStore()
         const { nofitication } = useNotifier()

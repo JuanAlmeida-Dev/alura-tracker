@@ -40,7 +40,7 @@
  /* eslint-disable */
 import { useStore } from '@/store';
 import { GET_PROJECTS } from '@/store/actions';
-import { DELETE_PROJECT } from '@/store/mutations';
+import { DELETE_PROJECT } from '@/store/actions';
 import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
@@ -48,7 +48,7 @@ export default defineComponent({
 
     methods: {
         del (id: String) {
-            this.store.commit(DELETE_PROJECT, id);
+            this.store.dispatch(DELETE_PROJECT, id);
         }
     },
 
