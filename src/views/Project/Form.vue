@@ -15,10 +15,10 @@
 </template>
 
 <script lang="ts">
- /* eslint-disable */
+/* eslint-disable */
 import { NotificationType } from '@/interfaces/Notification';
 import { useStore } from '@/store';
-import { ADD_PROJECT, ALTER_PROJECT } from '@/store/actions';
+import { ALTER_PROJECT, GET_PROJECTS, GET_TASKS, REGISTER_PROJECT, REMOVE_PROJECT } from "@/store/actions";
 import { defineComponent } from 'vue';
 import  useNotifier  from '@/hooks/notifier';
 
@@ -52,7 +52,7 @@ export default defineComponent({
                     name: this.nameProject 
                 }) .then(() => this.sucess());
             } else {
-                this.store.dispatch(ADD_PROJECT, this.nameProject)
+                this.store.dispatch(REGISTER_PROJECT, this.nameProject)
                 .then(() => this.sucess());
             }
         },

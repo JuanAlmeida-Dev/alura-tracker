@@ -1,12 +1,14 @@
-import Project from "@/interfaces/Project";
 import { InjectionKey } from "vue";
 import { createStore, Store, useStore as vuexUseStore } from "vuex";
-import { UPDATE_PROJECT, NOTIFICATION, DEFINED_PROJECT } from "./mutations";
+import Project from "@/interfaces/Project";
+import Task from "@/interfaces/Task";
 import {Notification} from "@/interfaces/Notification";
-import { ALTER_PROJECT, GET_PROJECTS, ADD_PROJECT, DELETE_PROJECT } from "./actions";
 import http from "@/http";
+import { UPDATE_PROJECT, NOTIFICATION, DEFINED_PROJECT, ADD_PROJECT, DELETE_PROJECT, DEFINED_TASK } from "./mutations";
+import { ALTER_PROJECT, GET_PROJECTS, GET_TASKS, REGISTER_PROJECT, REMOVE_PROJECT } from "./actions";
 
 interface State {
+    tasks: Task[]
     projects: Project[]
     notifications: Notification[]
 }
@@ -15,6 +17,7 @@ export const key: InjectionKey<Store<State>> = Symbol()
 
 export const store = createStore<State>({
     state: {
+        tasks: [],
         projects: [],
         notifications: []
     },
@@ -37,6 +40,9 @@ export const store = createStore<State>({
         [DEFINED_PROJECT](state, projects: Project[]){
             state.projects = projects;
         },
+        [DEFINED_TASK](state, tasks: Task[]){
+            state.tasks = tasks;
+        },
         [NOTIFICATION](state, notification: Notification){
             notification.id = new Date().getTime();
             state.notifications.push(notification);
@@ -53,7 +59,13 @@ export const store = createStore<State>({
                 commit(DEFINED_PROJECT, response.data);
             });
         },
-        [ADD_PROJECT] (context, nameProject: string){
+        [GET_TASKS]({commit}){
+            http.get('tasks')
+            .then(response => {
+                commit(DEFINED_TASK, response.data);
+            });
+        },
+        [REGISTER_PROJECT] (context, nameProject: string){
             return http.post('/projects', {
                 name: nameProject
             });
@@ -61,7 +73,7 @@ export const store = createStore<State>({
         [ALTER_PROJECT] (context, project: Project){
             return http.put(`/projects/${project.id}`,project);
         },
-        [DELETE_PROJECT] (context, id: string){
+        [REMOVE_PROJECT] (context, id: string){
             return http.delete(`/projects/${id}`)
              .then(() => {
                 context.commit(DELETE_PROJECT, id);

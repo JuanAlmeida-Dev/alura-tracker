@@ -8,39 +8,41 @@
     </div>
   </template>
   
-  <script lang="ts">
-  /* eslint-disable */
-  import { defineComponent } from "vue";
-  import Forms from "../components/Form.vue";
-  import Box from "../components/Box.vue";
-  import Lists from "../components/Lists.vue";
-  import Task from "../interfaces/Task";
+<script lang="ts">
+/* eslint-disable */
+import { computed, defineComponent } from "vue";
+import { useStore } from '@/store';
+import Forms from "../components/Form.vue";
+import Box from "../components/Box.vue";
+import Lists from "../components/Lists.vue";
+import { GET_TASKS } from "@/store/actions";
   
-  export default defineComponent({
-    name: "Task",
-    components: {
-      Forms,
-      Lists,
-      Box,
-    },
-  
-    data () {
-      return {
-        tasks: [] as Task []
-      }
-    },
-  
-    computed: {
-      lenghtList ():  boolean {
-        return this.tasks.length === 0
-      }
-    },
-  
-    methods: {
-      saveTask (task: Task) {
-        this.tasks.push(task)
-      }
+export default defineComponent({
+  name: "Task",
+  components: {
+    Forms,
+    Lists,
+    Box,
+  },
+  methods: {
+    // saveTask (task: Task) : void {
+    //   this.tasks.push(task)
+    // }
+  },
+
+  computed: {
+    lenghtList ():  boolean {
+      return this.tasks.length === 0
     }
-  });
-  </script>
+  },
+  setup () {
+      const store = useStore()
+      store.dispatch(GET_TASKS);
+      return {
+        tasks: computed(() => store.state.tasks),
+        store
+      }
+  }
+});
+</script>
   

@@ -37,10 +37,9 @@
 </template>
 
 <script lang="ts">
- /* eslint-disable */
+/* eslint-disable */
 import { useStore } from '@/store';
-import { GET_PROJECTS } from '@/store/actions';
-import { DELETE_PROJECT } from '@/store/actions';
+import { ALTER_PROJECT, GET_PROJECTS, GET_TASKS, REGISTER_PROJECT, REMOVE_PROJECT } from "@/store/actions";
 import { computed, defineComponent } from 'vue';
 
 export default defineComponent({
@@ -48,7 +47,7 @@ export default defineComponent({
 
     methods: {
         del (id: String) {
-            this.store.dispatch(DELETE_PROJECT, id);
+            this.store.dispatch(REMOVE_PROJECT, id);
         }
     },
 
@@ -56,8 +55,8 @@ export default defineComponent({
         const store = useStore()
         store.dispatch(GET_PROJECTS);
         return {
-            store,
-            projects: computed(() => store.state.projects)
+            projects: computed(() => store.state.projects),
+            store
         }
     }
 });
