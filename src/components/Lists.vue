@@ -1,6 +1,6 @@
 <template>
   <Box>
-    <div class="columns" v-if="task">
+    <div class="columns hover" v-if="task" @click="taskClick">
       <div class="column is-7 text-descrition">
         {{task.desc || 'Sem descrição'}}
       </div>
@@ -27,6 +27,8 @@ import StopWatch from "./StopWatch.vue";
 export default defineComponent({
   name: 'Lists',
 
+  emits: ['task-click'],
+
   components: {
     StopWatch,
     Box,
@@ -37,6 +39,12 @@ export default defineComponent({
       type: Object as PropType<Task>,
         required: true
     }
+  },
+  
+  methods: {
+    taskClick() : void{
+      this.$emit('task-click', this.task);
+    }
   }
 });
 </script>
@@ -44,6 +52,9 @@ export default defineComponent({
 <style>
 .text-descrition{
   color: #fff;
+}
+.hover{
+  cursor: pointer;
 }
 </style>
 

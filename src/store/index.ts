@@ -4,8 +4,8 @@ import Project from "@/interfaces/Project";
 import Task from "@/interfaces/Task";
 import {Notification} from "@/interfaces/Notification";
 import http from "@/http";
-import { UPDATE_PROJECT, NOTIFICATION, DEFINED_PROJECT, ADD_PROJECT, DELETE_PROJECT, DEFINED_TASK } from "./mutations";
-import { ALTER_PROJECT, GET_PROJECTS, GET_TASKS, REGISTER_PROJECT, REMOVE_PROJECT } from "./actions";
+import { UPDATE_PROJECT, NOTIFICATION, DEFINED_PROJECT, ADD_PROJECT, DELETE_PROJECT, DEFINED_TASK, ADD_TASK } from "./mutations";
+import { ALTER_PROJECT, GET_PROJECTS, GET_TASKS, REGISTER_PROJECT, REGISTER_TASK, REMOVE_PROJECT } from "./actions";
 
 interface State {
     tasks: Task[]
@@ -29,6 +29,9 @@ export const store = createStore<State>({
                 name: nameProject
             } as Project;
             state.projects.push(project);
+        },
+        [ADD_TASK](state, tasks: Task){
+            state.tasks.push(tasks);
         },
         [UPDATE_PROJECT](state, project: Project){
             const index =  state.projects.findIndex(proj => proj.id === project.id);
@@ -64,6 +67,10 @@ export const store = createStore<State>({
             .then(response => {
                 commit(DEFINED_TASK, response.data);
             });
+        },
+        [REGISTER_TASK]( {commit}, task: Task){
+            return http.post('tasks', task)
+                .then(reponse => commit(ADD_TASK, reponse.data));
         },
         [REGISTER_PROJECT] (context, nameProject: string){
             return http.post('/projects', {
