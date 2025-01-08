@@ -4,3 +4,4 @@ export const REGISTER_PROJECT = 'REGISTER_PROJECT';
 export const REGISTER_TASK = 'REGISTER_TASK';
 export const ALTER_PROJECT = 'ALTER_PROJECT';
 export const REMOVE_PROJECT = 'REMOVE_PROJECT';
+export const ALTER_TASK = 'ALTER_TASK';

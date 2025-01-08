@@ -5,3 +5,4 @@ export const DELETE_PROJECT = 'DELETE_PROJECT';
 export const DEFINED_PROJECT = 'DEFINED_PROJECT';
 export const DEFINED_TASK = 'DEFINED_TASK';
 export const NOTIFICATION = 'NOTIFICATION';
+export const UPDATE_TASK = 'UPDATE_TASK';

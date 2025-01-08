@@ -4,8 +4,8 @@ import Project from "@/interfaces/Project";
 import Task from "@/interfaces/Task";
 import {Notification} from "@/interfaces/Notification";
 import http from "@/http";
-import { UPDATE_PROJECT, NOTIFICATION, DEFINED_PROJECT, ADD_PROJECT, DELETE_PROJECT, DEFINED_TASK, ADD_TASK } from "./mutations";
-import { ALTER_PROJECT, GET_PROJECTS, GET_TASKS, REGISTER_PROJECT, REGISTER_TASK, REMOVE_PROJECT } from "./actions";
+import { UPDATE_PROJECT, NOTIFICATION, DEFINED_PROJECT, ADD_PROJECT, DELETE_PROJECT, DEFINED_TASK, ADD_TASK, UPDATE_TASK } from "./mutations";
+import { ALTER_PROJECT, ALTER_TASK, GET_PROJECTS, GET_TASKS, REGISTER_PROJECT, REGISTER_TASK, REMOVE_PROJECT } from "./actions";
 
 interface State {
     tasks: Task[]
@@ -36,6 +36,10 @@ export const store = createStore<State>({
         [UPDATE_PROJECT](state, project: Project){
             const index =  state.projects.findIndex(proj => proj.id === project.id);
             state.projects[index] = project;
+        },
+        [UPDATE_TASK](state, task: Task){
+            const index =  state.tasks.findIndex(tar => tar.id === task.id);
+            state.tasks[index] = task;
         },
         [DELETE_PROJECT](state, id: string){
             state.projects = state.projects.filter(proj => proj.id !== id);
@@ -80,11 +84,15 @@ export const store = createStore<State>({
         [ALTER_PROJECT] (context, project: Project){
             return http.put(`/projects/${project.id}`,project);
         },
+        [ALTER_TASK] ({commit}, task: Task){
+            return http.put(`/tasks/${task.id}`,task)
+                .then(() => commit(UPDATE_TASK, task));
+        },
         [REMOVE_PROJECT] (context, id: string){
             return http.delete(`/projects/${id}`)
-             .then(() => {
-                context.commit(DELETE_PROJECT, id);
-            });   
+                .then(() => {
+                    context.commit(DELETE_PROJECT, id);
+                });   
         }      
     }
 });
